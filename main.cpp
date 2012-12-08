@@ -2,5 +2,6 @@
 
 int main()
 {
-    test();
+    test_comp();
+    test_comp_set();
 }

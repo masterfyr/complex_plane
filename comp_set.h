@@ -16,7 +16,10 @@ class comp_set
         vector<comp> set;
     public:
         //default constructor
-        comp_set(){}
+        comp_set()
+        {
+            set=vector<comp>(0);
+        }
 
         //nondefault constructor from array
         comp_set(comp array[], int size)
@@ -35,12 +38,22 @@ class comp_set
         }
 
         //add the element in the end
-        void add(const comp& val)
+        void add(comp const& val)
         {
             set.push_back(val);
         }
 
-
+        //make the mebius transformation
+        comp_set meb_trans(const comp& a , const comp& b , const comp& c , const comp& d) const
+        {
+            vector<comp> s = this->get_set();
+            comp_set res;
+            for (int i=0;i<this->get_set().size();i++)
+            {
+                res.add(s.at(i).meb_trans(a,b,c,d));
+            }
+            return res;
+        }
 
         void print(void);
 };

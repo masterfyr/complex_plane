@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <iostream>
 
+
 void test_comp()
 {
     assert(true);
@@ -35,6 +36,12 @@ void test_comp()
         std::cout<<comp::err_msg(error)<<"\n";
     }
 
+    a=COMP_I;
+    a=comp(1,1);
+    //a=comp(0,0);
+    //a=a.pow(-1);
+    a=a.ln();
+    a=a.exp();
     a.print();
     printf("Hello\n");
 }
@@ -48,5 +55,9 @@ void test_comp_set()
         x.add(z);
         z=z.mult(z);
     }
+    x.print();
+
+    x=x.meb_trans(0, 1, 1, 0);
+
     x.print();
 }

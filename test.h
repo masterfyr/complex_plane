@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <iostream>
 
+using namespace std;
 
 void test_comp()
 {
@@ -52,12 +53,25 @@ void test_comp_set()
     comp_set x;
     for (int i=0;i<5;i++)
     {
-        x.add(z);
+        x.add_to_set(z);
         z=z.mult(z);
     }
     x.print();
 
     x=x.meb_trans(0, 1, 1, 0);
 
+    z=comp(1,0);
+    comp_set x1;
+    x1.add_to_set(z);
+
+    for (int i=0;i<5;i++)
+    {
+        x1=x1.sqrt_full();
+        x1=x1-1;
+    }
+
     x.print();
+
+    x1.print();
+    cout<<x1.size();
 }

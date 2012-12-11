@@ -10,6 +10,7 @@
 
 #define sqr(x) ((x)*(x))
 
+
 class comp
 {
 public:
@@ -174,6 +175,38 @@ public:
     {
         return (op1.add(op2.mult(-1))).modul();
     }
+
+    //operator of equality
+    int operator== (const comp& op1) const
+    {
+        return this->eqauls(op1);
+    }
+
+    //operator of the addition
+    comp operator+(const comp& op1) const
+    {
+        return this->add(op1);
+    }
+
+    //operator of the multiplication
+    comp operator*(const comp& op1) const
+    {
+        return this->mult(op1);
+    }
+
+    //operator: power of the num
+    comp operator^(_c_type_ op1) const
+    {
+        return this->pow(op1);
+    }
+
+    //operator difference
+    comp operator-(const comp& op) const
+    {
+        return this->add(op.mult(-1));
+    }
+
+
 };
 
 #endif // COMP_H

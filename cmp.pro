@@ -5,7 +5,13 @@ HEADERS += \
     comp.h \
     test.h \
     comp_set.h \
-    console_impl.h
+    impl_graph.h \
+    impl_console.h
 
 SOURCES += \
-    main.cpp
+    main.cpp \
+    comp.cpp
+
+#adding additional lib
+#LIBS += -L$$PWD/ -ldiscpp
+

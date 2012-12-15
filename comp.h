@@ -1,13 +1,19 @@
 #ifndef COMP_H
 #define COMP_H
 
-
+//define basic math constants
 #define _USE_MATH_DEFINES
 #undef _MATH_DEFINES_DEFINED
+
+//include math arithmetics
+
 #include "math.h"
 
+//define the specific type of real part of
+//the complex numbers
 #define _c_type_ double
 
+//define the square function
 #define sqr(x) ((x)*(x))
 
 
@@ -29,184 +35,92 @@ public:
     double im;
 
     //default constructor
-    comp():re(0),im(0){}
+    comp();
 
     //nondefault constructor
-    comp(_c_type_ _re, _c_type_ _im): re(_re),im(_im){}
+    comp(_c_type_ _re, _c_type_ _im);
 
     //constructor from real value
-    comp(_c_type_ _re): re(_re), im(0){}
+    comp(_c_type_ _re);
 
     //constructor from polar coordinates
-    comp(_c_type_ rho, _c_type_ phi, int): re(rho*cos(phi)), im(rho*sin(phi))
-    {
-        if (rho<0) throw NONPOSITIVE_MODUL;
-    }
+    comp(_c_type_ rho, _c_type_ phi, int);
 
     //setter
-    inline void set(_c_type_ _re, _c_type_ _im)
-    {
-        re=_re;
-        im=_im;
-    }
+    inline void set(_c_type_ _re, _c_type_ _im);
 
     //the norm of the number
-    inline _c_type_ norm(void) const
-    {
-        return sqr(re)+sqr(im);
-    }
+    inline _c_type_ norm(void) const;
 
     //distanse to the zero
-    inline _c_type_ modul(void) const
-    {
-        return sqrt(norm());
-    }
+    inline _c_type_ modul(void) const;
 
     //angle
-    inline _c_type_ phi(void) const
-    {
-        if ((im==0)&&(re==0)) return 0;
-        _c_type_ t=acos(re/modul());
-        if (im>=0) return t;
-        return 2*M_PI - t;
-    }
+    inline _c_type_ phi(void) const;
 
     //addition of two complex numbers
-    inline comp add(const comp& op) const
-    {
-        comp res(re + op.re, im + op.im);
-        return res;
-    }
+    inline comp add(const comp& op) const;
 
     //multiplication of two complex numbers
-    inline comp mult(const comp& op) const
-    {
-        comp res(re*op.re - im*op.im, im*op.re + op.im*re);
-        return res;
-    }
+    inline comp mult(const comp& op) const;
 
     //multiplication by a real constant
-    inline comp mult(_c_type_ op_re) const
-    {
-        comp res(re*op_re, im*op_re);
-        return res;
-    }
+    inline comp mult(_c_type_ op_re) const;
 
     //conjugation
-    inline comp conj(void) const
-    {
-        comp res(re,-im);
-        return res;
-    }
+    inline comp conj(void) const;
 
     //equality
-    inline int eqauls(const comp& op) const
-    {
-        return ((re==op.re)&&(im==op.im));
-    }
+    inline int eqauls(const comp& op) const;
+
     //equality
-    inline int eqauls(_c_type_ op_re) const
-    {
-        return ((re==op_re)&&(im==0));
-    }
+    inline int eqauls(_c_type_ op_re) const;
 
     /**
       * computes the complex inverse
       * @return inverse comp
       * @throws UNINVERTABLE exception
       */
-    inline comp inv(void) const
-    {
-        _c_type_ t=norm();
-        if (t==0) throw UNINVERTABLE;
-        return conj().mult(1/norm());
-    }
-
+    inline comp inv(void) const;
     //divide
-    inline comp div(comp const& op) const
-    {
-        return mult(op.inv());
-    }
+    inline comp div(comp const& op) const;
 
-    inline comp meb_trans(const comp& a , const comp& b , const comp& c , const comp& d) const
-    {
-        comp res=this->mult(a).add(b);
-        res = res.div(this->mult(c).add(d));
-        return res;
-    }
+    inline comp meb_trans(const comp& a , const comp& b , const comp& c , const comp& d) const;
 
     //square
-    inline comp sqr_c(void) const
-    {
-        return this->mult(*this);
-    }
+    inline comp sqr_c(void) const;
 
     //power
-    inline comp pow(_c_type_ pow) const
-    {
-        return comp(std::pow(this->modul() , pow) , this->phi()*pow , NULL);
-    }
+    inline comp cpow(_c_type_ arg) const;
 
     //natural logarithm
-    inline comp ln(void) const
-    {
-        if (this->eqauls(0)) throw ZERO_LN_ARG;
-        return comp(log(this->modul())/log( M_E ) , this->phi());
-    }
+    inline comp ln(void) const;
 
     //exp
-    inline comp exp(void) const
-    {
-        return comp( std::exp(re) , im  , NULL);
-    }
+    inline comp cexp(void) const;
 
     //print
     void print(void);
 
     //error message
-    static char* err_msg(int i)
-    {
-        if (i==UNINVERTABLE) return "Uninvertible matrix";
-        else return "No Errors";
-    }
+    static char* err_msg(int i);
 
     //distance in R_2 metrics of two points
-    static _c_type_ dist(const comp& op1, const comp& op2)
-    {
-        return (op1.add(op2.mult(-1))).modul();
-    }
+    static _c_type_ dist(const comp& op1, const comp& op2);
 
     //operator of equality
-    int operator== (const comp& op1) const
-    {
-        return this->eqauls(op1);
-    }
+    int operator== (const comp& op1) const;
 
     //operator of the addition
-    comp operator+(const comp& op1) const
-    {
-        return this->add(op1);
-    }
-
+    comp operator+(const comp& op1) const;
     //operator of the multiplication
-    comp operator*(const comp& op1) const
-    {
-        return this->mult(op1);
-    }
+    comp operator*(const comp& op1) const;
 
     //operator: power of the num
-    comp operator^(_c_type_ op1) const
-    {
-        return this->pow(op1);
-    }
+    comp operator^(_c_type_ op1) const;
 
     //operator difference
-    comp operator-(const comp& op) const
-    {
-        return this->add(op.mult(-1));
-    }
-
-
+    comp operator-(const comp& op) const;
 };
 
 #endif // COMP_H

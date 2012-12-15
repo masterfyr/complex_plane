@@ -3,7 +3,7 @@
 
 #include "comp_set.h"
 #include "comp.h"
-#include "console_impl.h"
+#include "impl_console.h"
 
 
 #include <stdio.h>
@@ -42,7 +42,7 @@ void test_comp()
     //a=comp(0,0);
     //a=a.pow(-1);
     a=a.ln();
-    a=a.exp();
+    a=a.cexp();
     a.print();
     printf("Hello\n");
 }

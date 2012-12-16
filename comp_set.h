@@ -2,7 +2,6 @@
 #define COMP_SET_H
 
 #include <vector>
-//#include <list>
 
 #include "comp.h"
 
@@ -41,7 +40,7 @@ class comp_set
         {
             for (unsigned int i=0;i<set.size();i++)
             {
-                if (set.at(i)==val) return i;
+                if (_c_eqauls(set.at(i),val)) return i;
             }
             return -1;
         }
@@ -57,9 +56,11 @@ class comp_set
         {
             vector<comp> s = this->get_set();
             comp_set res;
+            int err; //error code
             for (unsigned int i=0;i<this->get_set().size();i++)
             {
-                res.add_to_set(s.at(i).meb_trans(a,b,c,d));
+                if ((err=_c_meb_trans(a,b,c,d,s.at(i),s.at(i)))!=NO_EXCEPTION) throw err;
+                res.add_to_set(s.at(i));
             }
             return res;
         }
@@ -88,18 +89,18 @@ class comp_set
             comp_set res;
             for (unsigned int i=0;i<set.size();i++)
             {
-                res.add_to_set(set.at(i)*val);
+                res.add_to_set(_c_mult(set.at(i),val));
             }
             return res;
         }
 
         //power of the set
-        comp_set operator^(_c_type_ op) const
+        comp_set operator^(_c_type op) const
         {
             comp_set res;
             for (unsigned int i=0;i<set.size();i++)
             {
-                res.add_to_set(set.at(i)^op);
+                res.add_to_set(_c_pow(set.at(i),op));
             }
             return res;
         }
@@ -110,7 +111,7 @@ class comp_set
             comp_set res;
             for (unsigned int i=0;i<set.size();i++)
             {
-                res.add_to_set(set.at(i)+op);
+                res.add_to_set(_c_add(set.at(i),op));
             }
             return res;
         }
@@ -121,7 +122,7 @@ class comp_set
             comp_set res;
             for (unsigned int i=0;i<set.size();i++)
             {
-                res.add_to_set(set.at(i)-op);
+                res.add_to_set(_c_add(set.at(i),_c_mult(op,comp_r(-1))));
             }
             return res;
         }
@@ -132,11 +133,10 @@ class comp_set
         comp_set sqrt_full() const
         {
             comp_set res(*this^(0.5));
-            res=res.cup(res*(-1));
+            comp t={-1,0};
+            res=res.cup(res*t);
             return res;
         }
-
-
 
         void print(void);
 };

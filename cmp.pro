@@ -4,14 +4,16 @@ CONFIG += console
 HEADERS += \
     comp.h \
     test.h \
-    comp_set.h \
     impl_graph.h \
-    impl_console.h
+    impl_console.h \
+    comp_set.h
 
 SOURCES += \
-    main.cpp \
-    comp.cpp
+    main.cpp
 
 #adding additional lib
 #LIBS += -L$$PWD/ -ldiscpp
+
+OTHER_FILES += \
+    note.txt
 

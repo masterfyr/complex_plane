@@ -3,5 +3,5 @@
 int main()
 {
     test_comp();
-    //test_comp_set();
+    test_comp_set();
 }
